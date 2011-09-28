@@ -35,6 +35,10 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    @user.posts.build #used to create new post form
+    @posts = @user.posts
+    @posts.reverse!
+    @categories = Category.all
   end
 
   # POST /users

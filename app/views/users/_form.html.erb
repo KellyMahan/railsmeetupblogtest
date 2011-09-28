@@ -23,6 +23,48 @@
     <%= f.label :email %><br />
     <%= f.text_field :email %>
   </div>
+  
+  <%=f.fields_for :posts do |pf|%>
+    <hr>
+    <%if pf.object.new_record?%>
+    <h4>New Post</h4>
+    <%else%>
+    <h4>Edit Post "<%=pf.object.title%>"</h4>
+    <%end%>
+    
+    <div class="field">
+      <%= pf.label :_destroy, "Remove Post" %><br />
+      <%= pf.check_box :_destroy %>
+    </div>
+    <div class="field">
+      <%= pf.label :title %><br />
+      <%= pf.text_field :title %>
+    </div>
+    <div class="field">
+      <%= pf.label :categories %><br />
+      <%= pf.select :category_id, @categories.map{|c| [c.name, c.id]} %>
+    </div>
+    <div class="field">
+      <%= pf.label :content %><br />
+      <%= pf.text_area :content %>
+    </div>
+    <div class="field">
+      <%= pf.label :user_id %><br />
+      <%= pf.text_field :user_id %>
+    </div>
+    <h5>Tags</h5>
+    <%=pf.fields_for :tags, build_tags(pf.object) do |tf|%>
+      <div class="field">
+        <%= tf.label :name %><br />
+        <%= tf.text_field :name %>
+        
+        <% unless tf.object.new_record?%>
+          <%= tf.check_box :_destroy%>
+          Remove?
+        <% end %>
+      </div>
+    <%end%>
+  <%end%>
   <div class="actions">
     <%= f.submit %>
   </div>
